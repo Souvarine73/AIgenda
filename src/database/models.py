@@ -1,5 +1,34 @@
 """
-Docstring
+Task Management Module - Database Models
+
+This module provides the data model definition for a task management system
+using SQLAlchemy as the ORM. It includes the task table definition and
+utility functions for database connection and configuration.
+
+Main Components:
+   - Tarea: SQLAlchemy model representing a task in the database
+   - create_database(): Function to create the database and tables
+   - get_session(): Function to obtain a database session
+
+Usage Example:
+   from task_models import Tarea, get_session
+   
+   # Create a new task
+   session = get_session()
+   new_task = Tarea(
+       title="Complete project",
+       description="Finish the development of the task module",
+       due_date=datetime(2025, 6, 15)
+   )
+   session.add(new_task)
+   session.commit()
+
+Default Database:
+   SQLite stored at: data/tareas.db
+
+Dependencies:
+   - SQLAlchemy: ORM for database management
+   - datetime: Date and timestamp handling
 """
 
 from datetime import datetime
