@@ -1,0 +1,166 @@
+2025-05-31 13:31:13 | INFO     | === INICIANDO PRUEBAS DE BASE DE DATOS ===
+2025-05-31 13:31:19 | INFO     | 🧹 Limpiando base de datos...
+2025-05-31 13:31:20 | SUCCESS  | ✅ Base de datos limpiada (0 tareas eliminadas)
+2025-05-31 13:31:20 | INFO     | 🚀 Iniciando pruebas de base de datos...
+2025-05-31 13:31:20 | INFO     | 1️⃣ Creando sesión con debug activado...
+2025-05-31 13:31:20 | SUCCESS  | ✅ Sesión creada correctamente
+2025-05-31 13:31:20 | INFO     | 2️⃣ Creando tarea de prueba...
+2025-05-31 13:31:20 | ERROR    | ❌ Error durante las pruebas: 'titulo' is an invalid keyword argument for Tarea
+Traceback (most recent call last):
+
+  File "C:\Proyectos\ia\AIgenda\src\database\test_database.py", line 168, in <module>
+    exito = test_database()
+            └ <function test_database at 0x000001DCDB497E20>
+
+> File "C:\Proyectos\ia\AIgenda\src\database\test_database.py", line 43, in test_database
+    tarea_prueba = Tarea(
+                   └ <class 'models.Tarea'>
+
+  File "<string>", line 4, in __init__
+  File "C:\Proyectos\ia\AIgenda\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 571, in _initialize_instance
+    with util.safe_reraise():
+         │    └ <class 'sqlalchemy.util.langhelpers.safe_reraise'>
+         └ <module 'sqlalchemy.util' from 'C:\\Proyectos\\ia\\AIgenda\\.venv\\Lib\\site-packages\\sqlalchemy\\util\\__init__.py'>
+  File "C:\Proyectos\ia\AIgenda\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+          │         │              └ <traceback object at 0x000001DCDD1DD380>
+          │         └ <method 'with_traceback' of 'BaseException' objects>
+          └ TypeError("'titulo' is an invalid keyword argument for Tarea")
+  File "C:\Proyectos\ia\AIgenda\.venv\Lib\site-packages\sqlalchemy\orm\state.py", line 569, in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+    │       │              │            └ {'titulo': 'Tarea de prueba', 'descripcion': 'Esta es una tarea creada para probar que la BD funciona', 'fecha_vencimiento': ...
+    │       │              └ (<sqlalchemy.orm.state.InstanceState object at 0x000001DCDD233EF0>, <Tarea(id=None, title='None', due_date='None')>)
+    │       └ <function _declarative_constructor at 0x000001DCDD1C3600>
+    └ <ClassManager of <class 'models.Tarea'> at 1dcdd172b70>
+  File "C:\Proyectos\ia\AIgenda\.venv\Lib\site-packages\sqlalchemy\orm\decl_base.py", line 2173, in _declarative_constructor
+    raise TypeError(
+
+TypeError: 'titulo' is an invalid keyword argument for Tarea
+2025-05-31 13:31:20 | WARNING  | 💡 Revisa que el directorio 'data' existe y que models.py está bien configurado
+2025-05-31 13:31:20 | ERROR    | === PRUEBAS FALLARON ===
+2025-05-31 13:37:10 | INFO     | === INICIANDO PRUEBAS DE BASE DE DATOS ===
+2025-05-31 13:37:13 | INFO     | 🧹 Limpiando base de datos...
+2025-05-31 13:37:13 | SUCCESS  | ✅ Base de datos limpiada (0 tareas eliminadas)
+2025-05-31 13:37:13 | INFO     | 🚀 Iniciando pruebas de base de datos...
+2025-05-31 13:37:13 | INFO     | 1️⃣ Creando sesión con debug activado...
+2025-05-31 13:37:13 | SUCCESS  | ✅ Sesión creada correctamente
+2025-05-31 13:37:13 | INFO     | 2️⃣ Creando tarea de prueba...
+2025-05-31 13:37:13 | DEBUG    | Tarea creada: Tarea de prueba
+2025-05-31 13:37:13 | INFO     | 3️⃣ Guardando en la base de datos...
+2025-05-31 13:37:13 | SUCCESS  | ✅ Tarea guardada con ID: 1
+2025-05-31 13:37:13 | INFO     | 4️⃣ Verificando que se guardó...
+2025-05-31 13:37:13 | SUCCESS  | ✅ Tarea recuperada: <Tarea(id=1, title='Tarea de prueba', due_date='2025-06-07 13:37:13.146301')>
+2025-05-31 13:37:13 | DEBUG    |    - Title: Tarea de prueba
+2025-05-31 13:37:13 | DEBUG    |    - Description: Esta es una tarea creada para probar que la BD funciona
+2025-05-31 13:37:13 | DEBUG    |    - Created at: 2025-05-31 11:37:13.148173
+2025-05-31 13:37:13 | DEBUG    |    - Due date: 2025-06-07 13:37:13.146301
+2025-05-31 13:37:13 | INFO     | 5️⃣ Probando conversión a diccionario...
+2025-05-31 13:37:13 | SUCCESS  | ✅ Conversión a diccionario exitosa
+2025-05-31 13:37:13 | DEBUG    | Diccionario: {'id': 1, 'title': 'Tarea de prueba', 'description': 'Esta es una tarea creada para probar que la BD funciona', 'created_at': '2025-05-31T11:37:13.148173', 'updated_at': '2025-05-31T11:37:13.148175', 'due_date': '2025-06-07T13:37:13.146301'}
+2025-05-31 13:37:13 | INFO     | 6️⃣ Creando varias tareas...
+2025-05-31 13:37:13 | DEBUG    | Añadida tarea: Comprar leche
+2025-05-31 13:37:13 | DEBUG    | Añadida tarea: Estudiar Python
+2025-05-31 13:37:13 | DEBUG    | Añadida tarea: Llamar al médico
+2025-05-31 13:37:13 | SUCCESS  | ✅ 3 tareas adicionales creadas
+2025-05-31 13:37:13 | INFO     | 7️⃣ Listando todas las tareas...
+2025-05-31 13:37:13 | SUCCESS  | ✅ Total de tareas en BD: 4
+2025-05-31 13:37:13 | DEBUG    |    1. <Tarea(id=1, title='Tarea de prueba', due_date='2025-06-07 13:37:13.146301')>
+2025-05-31 13:37:13 | DEBUG    |    2. <Tarea(id=2, title='Comprar leche', due_date='2025-06-02 13:37:13.155583')>
+2025-05-31 13:37:13 | DEBUG    |    3. <Tarea(id=3, title='Estudiar Python', due_date='2025-06-03 13:37:13.155615')>
+2025-05-31 13:37:13 | DEBUG    |    4. <Tarea(id=4, title='Llamar al médico', due_date='2025-06-01 13:37:13.155627')>
+2025-05-31 13:37:13 | INFO     | 8️⃣ Probando consultas con filtro...
+2025-05-31 13:37:13 | SUCCESS  | ✅ Tareas con fecha de vencimiento: 4
+2025-05-31 13:37:13 | DEBUG    |    - Tarea de prueba (vence: 2025-06-07)
+2025-05-31 13:37:13 | DEBUG    |    - Comprar leche (vence: 2025-06-02)
+2025-05-31 13:37:13 | DEBUG    |    - Estudiar Python (vence: 2025-06-03)
+2025-05-31 13:37:13 | DEBUG    |    - Llamar al médico (vence: 2025-06-01)
+2025-05-31 13:37:13 | INFO     | 9️⃣ Cerrando sesión...
+2025-05-31 13:37:13 | SUCCESS  | ✅ Sesión cerrada correctamente
+2025-05-31 13:37:13 | SUCCESS  | 🎉 ¡Todas las pruebas pasaron! Tu base de datos funciona perfectamente.
+2025-05-31 13:37:13 | INFO     | 📁 Base de datos creada en: data/tareas.db
+2025-05-31 13:37:13 | INFO     | 📝 Logs guardados en: logs/test_database.log
+2025-05-31 13:37:13 | INFO     | === PRUEBAS COMPLETADAS CON ÉXITO ===
+2025-05-31 13:46:08 | INFO     | === INICIANDO PRUEBAS DE BASE DE DATOS ===
+2025-05-31 13:46:11 | INFO     | 🧹 Limpiando base de datos...
+2025-05-31 13:46:11 | SUCCESS  | ✅ Base de datos limpiada (4 tareas eliminadas)
+2025-05-31 13:46:11 | INFO     | 🚀 Iniciando pruebas de base de datos...
+2025-05-31 13:46:11 | INFO     | 1️⃣ Creando sesión con debug activado...
+2025-05-31 13:46:11 | SUCCESS  | ✅ Sesión creada correctamente
+2025-05-31 13:46:11 | INFO     | 2️⃣ Creando tarea de prueba...
+2025-05-31 13:46:11 | DEBUG    | Tarea creada: Tarea de prueba
+2025-05-31 13:46:11 | INFO     | 3️⃣ Guardando en la base de datos...
+2025-05-31 13:46:11 | SUCCESS  | ✅ Tarea guardada con ID: 1
+2025-05-31 13:46:11 | INFO     | 4️⃣ Verificando que se guardó...
+2025-05-31 13:46:11 | SUCCESS  | ✅ Tarea recuperada: <Tarea(id=1, title='Tarea de prueba', due_date='2025-06-07 13:46:11.430365')>
+2025-05-31 13:46:11 | DEBUG    |    - Title: Tarea de prueba
+2025-05-31 13:46:11 | DEBUG    |    - Description: Esta es una tarea creada para probar que la BD funciona
+2025-05-31 13:46:11 | DEBUG    |    - Created at: 2025-05-31 11:46:11.431720
+2025-05-31 13:46:11 | DEBUG    |    - Due date: 2025-06-07 13:46:11.430365
+2025-05-31 13:46:11 | INFO     | 5️⃣ Probando conversión a diccionario...
+2025-05-31 13:46:11 | SUCCESS  | ✅ Conversión a diccionario exitosa
+2025-05-31 13:46:11 | DEBUG    | Diccionario: {'id': 1, 'title': 'Tarea de prueba', 'description': 'Esta es una tarea creada para probar que la BD funciona', 'created_at': '2025-05-31T11:46:11.431720', 'updated_at': '2025-05-31T11:46:11.431723', 'due_date': '2025-06-07T13:46:11.430365'}
+2025-05-31 13:46:11 | INFO     | 6️⃣ Creando varias tareas...
+2025-05-31 13:46:11 | DEBUG    | Añadida tarea: Comprar leche
+2025-05-31 13:46:11 | DEBUG    | Añadida tarea: Estudiar Python
+2025-05-31 13:46:11 | DEBUG    | Añadida tarea: Llamar al médico
+2025-05-31 13:46:11 | SUCCESS  | ✅ 3 tareas adicionales creadas
+2025-05-31 13:46:11 | INFO     | 7️⃣ Listando todas las tareas...
+2025-05-31 13:46:11 | SUCCESS  | ✅ Total de tareas en BD: 4
+2025-05-31 13:46:11 | DEBUG    |    1. <Tarea(id=1, title='Tarea de prueba', due_date='2025-06-07 13:46:11.430365')>
+2025-05-31 13:46:11 | DEBUG    |    2. <Tarea(id=2, title='Comprar leche', due_date='2025-06-02 13:46:11.438698')>
+2025-05-31 13:46:11 | DEBUG    |    3. <Tarea(id=3, title='Estudiar Python', due_date='2025-06-03 13:46:11.438727')>
+2025-05-31 13:46:11 | DEBUG    |    4. <Tarea(id=4, title='Llamar al médico', due_date='2025-06-01 13:46:11.438735')>
+2025-05-31 13:46:11 | INFO     | 8️⃣ Probando consultas con filtro...
+2025-05-31 13:46:11 | SUCCESS  | ✅ Tareas con fecha de vencimiento: 4
+2025-05-31 13:46:11 | DEBUG    |    - Tarea de prueba (vence: 2025-06-07)
+2025-05-31 13:46:11 | DEBUG    |    - Comprar leche (vence: 2025-06-02)
+2025-05-31 13:46:11 | DEBUG    |    - Estudiar Python (vence: 2025-06-03)
+2025-05-31 13:46:11 | DEBUG    |    - Llamar al médico (vence: 2025-06-01)
+2025-05-31 13:46:11 | INFO     | 9️⃣ Cerrando sesión...
+2025-05-31 13:46:11 | SUCCESS  | ✅ Sesión cerrada correctamente
+2025-05-31 13:46:11 | SUCCESS  | 🎉 ¡Todas las pruebas pasaron! Tu base de datos funciona perfectamente.
+2025-05-31 13:46:11 | INFO     | 📁 Base de datos creada en: data/tareas.db
+2025-05-31 13:46:11 | INFO     | 📝 Logs guardados en: logs/test_database.log
+2025-05-31 13:46:11 | INFO     | === PRUEBAS COMPLETADAS CON ÉXITO ===
+2025-05-31 14:40:43 | INFO     | === INICIANDO PRUEBAS DE BASE DE DATOS ===
+2025-05-31 14:40:46 | INFO     | 🧹 Limpiando base de datos...
+2025-05-31 14:40:46 | SUCCESS  | ✅ Base de datos limpiada (4 tareas eliminadas)
+2025-05-31 14:40:46 | INFO     | 🚀 Iniciando pruebas de base de datos...
+2025-05-31 14:40:46 | INFO     | 1️⃣ Creando sesión con debug activado...
+2025-05-31 14:40:46 | SUCCESS  | ✅ Sesión creada correctamente
+2025-05-31 14:40:46 | INFO     | 2️⃣ Creando tarea de prueba...
+2025-05-31 14:40:46 | DEBUG    | Tarea creada: Tarea de prueba
+2025-05-31 14:40:46 | INFO     | 3️⃣ Guardando en la base de datos...
+2025-05-31 14:40:46 | SUCCESS  | ✅ Tarea guardada con ID: 1
+2025-05-31 14:40:46 | INFO     | 4️⃣ Verificando que se guardó...
+2025-05-31 14:40:46 | SUCCESS  | ✅ Tarea recuperada: <Tarea(id=1, title='Tarea de prueba', due_date='2025-06-07 14:40:46.183265')>
+2025-05-31 14:40:46 | DEBUG    |    - Title: Tarea de prueba
+2025-05-31 14:40:46 | DEBUG    |    - Description: Esta es una tarea creada para probar que la BD funciona
+2025-05-31 14:40:46 | DEBUG    |    - Created at: 2025-05-31 12:40:46.184992
+2025-05-31 14:40:46 | DEBUG    |    - Due date: 2025-06-07 14:40:46.183265
+2025-05-31 14:40:46 | INFO     | 5️⃣ Probando conversión a diccionario...
+2025-05-31 14:40:46 | SUCCESS  | ✅ Conversión a diccionario exitosa
+2025-05-31 14:40:46 | DEBUG    | Diccionario: {'id': 1, 'title': 'Tarea de prueba', 'description': 'Esta es una tarea creada para probar que la BD funciona', 'created_at': '2025-05-31T12:40:46.184992', 'updated_at': '2025-05-31T12:40:46.184995', 'due_date': '2025-06-07T14:40:46.183265'}
+2025-05-31 14:40:46 | INFO     | 6️⃣ Creando varias tareas...
+2025-05-31 14:40:46 | DEBUG    | Añadida tarea: Comprar leche
+2025-05-31 14:40:46 | DEBUG    | Añadida tarea: Estudiar Python
+2025-05-31 14:40:46 | DEBUG    | Añadida tarea: Llamar al médico
+2025-05-31 14:40:46 | SUCCESS  | ✅ 3 tareas adicionales creadas
+2025-05-31 14:40:46 | INFO     | 7️⃣ Listando todas las tareas...
+2025-05-31 14:40:46 | SUCCESS  | ✅ Total de tareas en BD: 4
+2025-05-31 14:40:46 | DEBUG    |    1. <Tarea(id=1, title='Tarea de prueba', due_date='2025-06-07 14:40:46.183265')>
+2025-05-31 14:40:46 | DEBUG    |    2. <Tarea(id=2, title='Comprar leche', due_date='2025-06-02 14:40:46.193723')>
+2025-05-31 14:40:46 | DEBUG    |    3. <Tarea(id=3, title='Estudiar Python', due_date='2025-06-03 14:40:46.193755')>
+2025-05-31 14:40:46 | DEBUG    |    4. <Tarea(id=4, title='Llamar al médico', due_date='2025-06-01 14:40:46.193768')>
+2025-05-31 14:40:46 | INFO     | 8️⃣ Probando consultas con filtro...
+2025-05-31 14:40:46 | SUCCESS  | ✅ Tareas con fecha de vencimiento: 4
+2025-05-31 14:40:46 | DEBUG    |    - Tarea de prueba (vence: 2025-06-07)
+2025-05-31 14:40:46 | DEBUG    |    - Comprar leche (vence: 2025-06-02)
+2025-05-31 14:40:46 | DEBUG    |    - Estudiar Python (vence: 2025-06-03)
+2025-05-31 14:40:46 | DEBUG    |    - Llamar al médico (vence: 2025-06-01)
+2025-05-31 14:40:46 | INFO     | 9️⃣ Cerrando sesión...
+2025-05-31 14:40:46 | SUCCESS  | ✅ Sesión cerrada correctamente
+2025-05-31 14:40:46 | SUCCESS  | 🎉 ¡Todas las pruebas pasaron! Tu base de datos funciona perfectamente.
+2025-05-31 14:40:46 | INFO     | 📁 Base de datos creada en: data/tareas.db
+2025-05-31 14:40:46 | INFO     | 📝 Logs guardados en: logs/test_database.log
+2025-05-31 14:40:46 | INFO     | === PRUEBAS COMPLETADAS CON ÉXITO ===
