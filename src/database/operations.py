@@ -3,13 +3,13 @@ Docstring
 """
 
 # import necessary modules
-from models import Tarea, get_session
-from schema import TaskCreate
+from .models import Tarea, get_session
+from .schema import TaskCreate
 from datetime import datetime
 from loguru import logger
 
 
-def create_task(title: str, description: str, due_date: datetime) -> dict:
+def create_task(title: str, description: str, due_date: datetime, database_url = None) -> dict:
     """
     Create a new task in the database.
     
@@ -36,7 +36,7 @@ def create_task(title: str, description: str, due_date: datetime) -> dict:
     logger.debug(f"New task: {new_task}")
 
     # get a new session
-    session = get_session(debug=True)
+    session = get_session(database_url or "sqlite:///data/tareas.db", debug=True)
     
     # add the new task to the session
     try:
