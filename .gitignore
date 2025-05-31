@@ -9,3 +9,6 @@ wheels/
 # Virtual environments
 .venv
 .env
+
+# ignore .log files
+logs/*.log
