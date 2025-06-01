@@ -7,6 +7,7 @@ from .models import Tarea, get_session
 from .schema import TaskCreate
 from datetime import datetime
 from loguru import logger
+from typing import Optional
 
 
 def create_task(title: str, description: str, due_date: datetime, database_url = None) -> dict:
@@ -57,14 +58,14 @@ def create_task(title: str, description: str, due_date: datetime, database_url =
 TO DO: 
 🥇 PRIORIDAD ALTA (Esenciales para chatbot básico)
 
-get_all_tasks() - Listar todas las tareas
+get_all_tasks() - Listar todas las tareas ✅
 get_task_by_id(id) - Obtener tarea específica
 delete_task(id) - Borrar tarea por ID
 
 
 🥈 PRIORIDAD MEDIA (Muy útiles para chatbot)
 
-get_tasks_for_today() - Tareas de hoy
+get_tasks_for_today() - Tareas de hoy 
 get_tasks_for_week() - Próximos 7 días
 get_upcoming_tasks(days=X) - Próximos X días (flexible)
 
@@ -77,7 +78,36 @@ get_recent_tasks(days=7) - Tareas creadas recientemente
 get_overdue_tasks() - Tareas vencidas (¡crítico para usuarios!) -> Depends on create update_task()
 """
 
-def get_all_task():
-    pass 
+def get_all_tasks(database_url: Optional[str] = None) -> list[dict]:
+    """
+    Retrieve a list of all tasks from the database.
 
+    Args:
+    - database_url (Optional[str]): The URL of the database. Defaults to None, which uses the default SQLite database.
+
+    Returns:
+    -list[dict]: A list of dictionaries representing all tasks in the database.
+
+    Raises:
+    - Exception: In case of error during retrieval.
+    """
+    try:
+        logger.info("🔗 Connecting to the database")
+        session = get_session(database_url or "sqlite:///data/tareas.db", debug=True)
+        logger.success("Database connection established successfully")
+    except Exception as e:
+        logger.error(f"❌ Error connecting to the database: {e}")
+        raise Exception(f"Error connecting to the database: {e}")
+    
+    try:
+        logger.info("🔍 Retrieving all tasks from the database")
+        tasks = session.query(Tarea).all()
+        logger.success(f"✅ Retrieved {len(tasks)} tasks successfully")
+        return [task.to_dict() for task in tasks]
+    except Exception as e:
+        logger.error(f"❌ Error retrieving tasks: {e}")
+        raise Exception(f"Error retrieving tasks: {e}")
+    finally:
+        logger.info("🔒 Closing session")
+        session.close()
         

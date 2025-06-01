@@ -12,3 +12,6 @@ wheels/
 
 # ignore .log files
 logs/*.log
+
+# coverage code
+.coverage
