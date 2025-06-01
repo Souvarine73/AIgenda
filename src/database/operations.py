@@ -53,4 +53,31 @@ def create_task(title: str, description: str, due_date: datetime, database_url =
         logger.info("4️⃣ Closing session")
         session.close()
 
+"""
+TO DO: 
+🥇 PRIORIDAD ALTA (Esenciales para chatbot básico)
+
+get_all_tasks() - Listar todas las tareas
+get_task_by_id(id) - Obtener tarea específica
+delete_task(id) - Borrar tarea por ID
+
+
+🥈 PRIORIDAD MEDIA (Muy útiles para chatbot)
+
+get_tasks_for_today() - Tareas de hoy
+get_tasks_for_week() - Próximos 7 días
+get_upcoming_tasks(days=X) - Próximos X días (flexible)
+
+🥉 PRIORIDAD BAJA (Nice to have)
+
+get_tasks_by_date_range(start, end) - Rango personalizado
+search_tasks(keyword) - Buscar por palabra clave
+delete_all_tasks() - Borrar todas (útil para testing)
+get_recent_tasks(days=7) - Tareas creadas recientemente
+get_overdue_tasks() - Tareas vencidas (¡crítico para usuarios!) -> Depends on create update_task()
+"""
+
+def get_all_task():
+    pass 
+
         
