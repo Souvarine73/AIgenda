@@ -94,7 +94,7 @@ def get_all_tasks(database_url: Optional[str] = None) -> list[dict]:
     try:
         logger.info("🔗 Connecting to the database")
         session = get_session(database_url or "sqlite:///data/tareas.db", debug=True)
-        logger.success("Database connection established successfully")
+        logger.success("✅ Database connection established successfully")
     except Exception as e:
         logger.error(f"❌ Error connecting to the database: {e}")
         raise Exception(f"Error connecting to the database: {e}")
@@ -110,4 +110,48 @@ def get_all_tasks(database_url: Optional[str] = None) -> list[dict]:
     finally:
         logger.info("🔒 Closing session")
         session.close()
+
+def get_task_by_id(task_id: int, database_url: Optional[str] = None) -> dict:
+    """
+    Retrieve a task by its ID from the database.
+    
+    Args:
+    - task_id (int): The id of the task to retrieve.
+    - database_url (Optional[str]): The URL of the database. Defaults to None, which uses the default SQLite database.
+    
+    Returns: 
+    - dict: The task as a dictionary.
+    
+    Raises:
+    - Exception: In case of error during retrieval
+    """
+    if not isinstance(task_id, int) or task_id <= 0:
+        logger.error(f"❌ Invalid task_id: {task_id}")
+        raise ValueError(f"task_id must be a positive integer, got: {task_id}")
+
+    try:
+        logger.info("🔗 Connecting to the database")
+        session = get_session(database_url or "sqlite:///data/tareas.db", debug=True)
+        logger.success("✅ Database connection established successfully")
+    except Exception as e:
+        logger.error(f"❌ Error connecting to the database: {e}")
+        raise Exception(f"Error connecting to the database: {e}")
+    
+    try:
+        logger.info(f"🔍 Retrieving task with ID {task_id} from the database")
+        task = session.query(Tarea).filter_by(id=task_id).first()
+        
+        if not task:
+            logger.warning(f"⚠️ Task with ID {task_id} not found")
+            return {"error": f"Task with ID {task_id} not found"}
+        
+        logger.success(f"✅ Task with ID {task_id} retrieved successfully")
+        return task.to_dict()
+    except Exception as e:
+        logger.error(f"❌ Error retrieving task with ID {task_id}: {e}")
+        raise Exception(f"Error retrieving task with ID {task_id}: {e}")
+    finally:
+        logger.info("🔒 Closing session")
+        session.close()
+
         
