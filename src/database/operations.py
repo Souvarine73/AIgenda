@@ -59,7 +59,7 @@ TO DO:
 🥇 PRIORIDAD ALTA (Esenciales para chatbot básico)
 
 get_all_tasks() - Listar todas las tareas ✅
-get_task_by_id(id) - Obtener tarea específica
+get_task_by_id(id) - Obtener tarea específica ✅
 delete_task(id) - Borrar tarea por ID
 
 
@@ -153,5 +153,48 @@ def get_task_by_id(task_id: int, database_url: Optional[str] = None) -> dict:
     finally:
         logger.info("🔒 Closing session")
         session.close()
+
+def delete_task(task_id: int, database_url: Optional[str] = None) -> dict:
+    """
+    Delete a task by its ID from the database.
+
+    Args:
+    - task_id (int): The id of the task to delete.
+
+    returns:
+    - dict: A dictionary indicating the result of the deletion operation.
+    """
+    # check id
+    if not isinstance(task_id, int) or task_id <= 0:
+        logger.error(f"Invalid task_id: {task_id}")
+        raise ValueError("❌ task_id must be a positive integer")
+    
+    try:
+        logger.info("🔗 Connecting to the database")
+        session = get_session(database_url or "sqlite:///data/tareas.db", debug=True)
+        logger.success("✅ Database connection established successfully")
+    except Exception as e:
+        logger.error(f"❌ Error connecting to the database: {e}")
+        raise Exception(f"Error connecting to the database: {e}")
+    
+    try:
+        logger.info(f"🔍 Deleting task with ID {task_id}")
+        deleted_count = session.query(Tarea).filter_by(id=task_id).delete()
+        if deleted_count == 0:
+            logger.warning(f"⚠️ task with ID {task_id} not found")
+            return {"error": f"task with ID {task_id} not found"}
+        session.commit()
+        logger.success(f"✅ Task with ID {task_id} deleted successfully")
+        return {"message": f"Task with ID {task_id} deleted successfully"}
+    except Exception as e:
+        session.rollback()
+        logger.error(f"❌ Error deleting task with ID {task_id}: {e}")
+        raise Exception(f"Error deleting task with ID {task_id}: {e}")
+    finally:
+        logger.info("🔒 Closing session")
+        session.close()
+        
+        
+
 
         
