@@ -13,7 +13,7 @@ from sqlalchemy import func
 from agents import function_tool
 
 @function_tool
-def create_task(title: str, description: str, due_date: datetime, database_url = None) -> dict:
+def create_task(title: str, description: str, due_date: datetime, database_url: Optional[str] = None) -> dict:
     """
     Create a new task in the database.
     
@@ -24,6 +24,11 @@ def create_task(title: str, description: str, due_date: datetime, database_url =
     Returns:
     -dict: The created task as a dictionary.
     """
+
+    # DEBUG: Ver exactamente qué recibimos
+    logger.error(f"🔍 DEBUG - Received due_date: {due_date}")
+    logger.error(f"🔍 DEBUG - Type: {type(due_date)}")
+    logger.error(f"🔍 DEBUG - String representation: {str(due_date)}")
 
     # validate input data
     logger.info("1️⃣ Validating input data for task creation")
