@@ -8,6 +8,8 @@ from .schema import TaskCreate
 from datetime import datetime
 from loguru import logger
 from typing import Optional
+from datetime import date
+from sqlalchemy import func
 
 
 def create_task(title: str, description: str, due_date: datetime, database_url = None) -> dict:
@@ -60,7 +62,7 @@ TO DO:
 
 get_all_tasks() - Listar todas las tareas ✅
 get_task_by_id(id) - Obtener tarea específica ✅
-delete_task(id) - Borrar tarea por ID
+delete_task(id) - Borrar tarea por ID ✅
 
 
 🥈 PRIORIDAD MEDIA (Muy útiles para chatbot)
@@ -160,6 +162,7 @@ def delete_task(task_id: int, database_url: Optional[str] = None) -> dict:
 
     Args:
     - task_id (int): The id of the task to delete.
+    - database_url (Optional[str]): The URL of the database. Defaults to None, which uses the default SQLite database.
 
     returns:
     - dict: A dictionary indicating the result of the deletion operation.
@@ -194,6 +197,42 @@ def delete_task(task_id: int, database_url: Optional[str] = None) -> dict:
         logger.info("🔒 Closing session")
         session.close()
         
+def get_tasks_for_today(database_url: Optional[str] = None) -> list[dict]:
+    """
+    Retrieve tasks that are due today from the databse.
+    
+    Args:
+    - database_url (Optional[str]): The URL of the database. Defaults to None, which uses the default SQLite database.
+
+    Returns:
+    - list[dict]: A list of dictionaries representing tasks that are due today.
+    """
+    try:
+        logger.info("🔗 Connecting to the database")
+        session = get_session(database_url or "sqlite:///data/tareas.db", debug=True)
+        logger.success("✅ Database connection established successfully")
+    except Exception as e:
+        logger.error(f"❌ Error connecting to the database: {e}")
+        raise Exception(f"Error connecting to the database: {e}")
+    
+    # Check if there is any task due today.
+    try:
+        today = date.today()
+        logger.info(f"Retrieving tasks due today: {today}")
+        tasks = session.query(Tarea).filter(func.date(Tarea.due_date) == today).all()
+        tasks_list = [task.to_dict() for task in tasks]
+        if not tasks_list:
+            logger.warning("No tasks due today")
+            return []
+        logger.success(f"✅ Retrieved {len(tasks_list)} tasks due today")
+        return tasks_list
+    except Exception as e:
+        logger.error(f"❌ Error retrieving tasks due today: {e}")
+        raise Exception(f"❌ Error retrieving tasks due today: {e}")
+    finally:
+        logger.info("🔒 Closing session")
+        session.close()
+
         
 
 
