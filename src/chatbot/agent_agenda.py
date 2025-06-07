@@ -17,10 +17,10 @@ from src.database.operations import (
 
 load_dotenv()
 
-with open("src/chatbot/prompts/translator_prompt.txt", "r") as f:
+with open("src/chatbot/prompts/translator_prompt.txt", "r", encoding='utf-8') as f:
     TRANSLATOR_INSTRUCTIONS = f.read()
 
-with open("src/chatbot/prompts/dateParser_prompt.txt", "r") as f:
+with open("src/chatbot/prompts/dateParser_prompt.txt", "r", encoding='utf-8') as f:
     DATEPARSER_INSTRUCTIONS = f.read()
     DATEPARSER_INSTRUCTIONS = DATEPARSER_INSTRUCTIONS.format(
         current_datetime=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),

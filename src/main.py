@@ -1,79 +1,86 @@
 from agents import Runner
 from chatbot.agent_agenda import translator_agent, date_parser_agent
 
-def test_date_parser():
-    """Prueba el agente de fechas con diferentes casos"""
+def test_translator_conversational():
+    """Prueba el agente traductor en modo conversacional y operacional"""
     
-    # Casos de prueba típicos que recibirá del TranslatorAgent
+    # Casos de prueba: conversación vs operaciones de tareas
     test_cases = [
-        # Creación de tareas
-        "Create a task for tomorrow: buy milk",
-        "Create a task for next week: doctor appointment", 
-        "Create a task for June 15th: birthday party",
-        "Create a task in 3 days: call mom",
+        # CONVERSACIÓN (NO debería hacer handoff)
+        ("¿Cómo estás?", "❌ No handoff"),
+        ("What's the weather today?", "❌ No handoff"),
+        ("Hola, ¿qué tal?", "❌ No handoff"),
+        ("Can you help me with something?", "❌ No handoff"),
+        ("¿Qué puedes hacer?", "❌ No handoff"),
+        ("Tell me a joke", "❌ No handoff"),
         
-        # Consultas
-        "Show me tasks for today",
-        "Get all my tasks",
-        "Show me upcoming tasks for next week",
-        "Find task with ID 5",
+        # OPERACIONES DE TAREAS (SÍ debería hacer handoff)
+        ("Crea una tarea para mañana: comprar leche", "✅ Handoff"),
+        ("Create a task for tomorrow: buy milk", "✅ Handoff"),
+        ("Mostrar todas mis tareas", "✅ Handoff"),
+        ("Show me my tasks for today", "✅ Handoff"),
+        ("Borrar la tarea con ID 5", "✅ Handoff"),
+        ("Delete task with ID 3", "✅ Handoff"),
+        ("Actualizar mi tarea de trabajo", "✅ Handoff"),
+        ("List all upcoming tasks", "✅ Handoff"),
         
-        # Eliminación
-        "Delete task with ID 3",
-        
-        # Sin fecha específica
-        "Create a task: buy groceries",
+        # CASOS AMBIGUOS
+        ("¿Tengo tareas pendientes?", "🤔 Should handoff"),
+        ("What tasks do I have?", "🤔 Should handoff"),
     ]
     
-    print("🧪 Testing DateParserAgent\n")
+    print("🧪 Testing TranslatorAgent - Conversational vs Operational\n")
     
-    for i, test_input in enumerate(test_cases, 1):
-        print(f"{'='*60}")
+    for i, (test_input, expected) in enumerate(test_cases, 1):
+        print(f"{'='*70}")
         print(f"Test {i}: {test_input}")
-        print('='*60)
+        print(f"Expected: {expected}")
+        print('='*70)
         
         try:
             result = Runner.run_sync(
-                date_parser_agent,
+                translator_agent,
                 test_input,
                 max_turns=3
             )
-            print(f"🤖 DateParser Output:")
-            print(f"   {result.final_output}")
             
-            # Verificar que el output tiene el formato esperado
             output = result.final_output
-            if any(cmd in output for cmd in ["CREATE_TASK:", "GET_", "DELETE_TASK:"]):
-                print("✅ Format: GOOD - Structured command detected")
+            print(f"🤖 Translator Response:")
+            print(f"   {output}")
+            
+            # Analizar si hizo handoff o no
+            if "Handoff" in output or "DateParserAgent" in output:
+                print("📤 Action: HANDOFF detected")
             else:
-                print("⚠️  Format: Check - May need adjustment")
+                print("💬 Action: CONVERSATION mode")
                 
         except Exception as e:
             print(f"❌ Error: {e}")
         
-        print()  # Línea en blanco para separar tests
+        print()
 
-def test_specific_dates():
-    """Prueba casos específicos de fechas complicadas"""
+def test_language_detection():
+    """Prueba la detección de idiomas y traducción"""
     
-    print("\n🗓️  Testing specific date scenarios\n")
+    print("\n🌍 Testing language detection and translation\n")
     
-    complex_cases = [
-        "Create a task for this Friday: team meeting",
-        "Create a task for the 25th: rent payment", 
-        "Create a task for next Monday: project review",
-        "Show me tasks for this month",
+    language_cases = [
+        "Crear una tarea: estudiar Python",  # Español
+        "Créer une tâche: apprendre français",  # Francés  
+        "Create a task: learn English",  # Inglés
+        "Criar uma tarefa: aprender português",  # Portugués
     ]
     
-    for case in complex_cases:
+    for case in language_cases:
         print(f"Input: {case}")
         try:
-            result = Runner.run_sync(date_parser_agent, case, max_turns=2)
-            print(f"Output: {result.final_output}")
-            print("-" * 40)
+            result = Runner.run_sync(translator_agent, case, max_turns=3)
+            print(f"Response: {result.final_output}")
+            print("-" * 50)
         except Exception as e:
             print(f"Error: {e}")
-            print("-" * 40)
+            print("-" * 50)
 
 if __name__ == "__main__":
-    test_date_parser()
+    test_translator_conversational()
+    test_language_detection()
