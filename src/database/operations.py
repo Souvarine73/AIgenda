@@ -8,7 +8,7 @@ from .schema import TaskCreate
 from datetime import datetime
 from loguru import logger
 from typing import Optional
-from datetime import date
+from datetime import date, timedelta
 from sqlalchemy import func
 
 
@@ -67,8 +67,7 @@ delete_task(id) - Borrar tarea por ID ✅
 
 🥈 PRIORIDAD MEDIA (Muy útiles para chatbot)
 
-get_tasks_for_today() - Tareas de hoy 
-get_tasks_for_week() - Próximos 7 días
+get_tasks_for_today() - Tareas de hoy ✅
 get_upcoming_tasks(days=X) - Próximos X días (flexible)
 
 🥉 PRIORIDAD BAJA (Nice to have)
@@ -233,7 +232,51 @@ def get_tasks_for_today(database_url: Optional[str] = None) -> list[dict]:
         logger.info("🔒 Closing session")
         session.close()
 
-        
+def get_upcoming_tasks(days: int, database_url: Optional[str] = None) -> list[dict]:
+    """
+    Retrieve tasks that are due within the next specified number of days from the database.
+
+    Args:
+    - days (int): The number of days to look ahead for upcoming tasks.
+    - database_url (Optional[str]): The URL of the database. Defaults to None, which uses the default SQLite database.
+
+    Returns:
+    - list[dict]: A list of dictionaries representing tasks that are due within the next specified number of days.
+    """
+    if not isinstance(days, int) or days < 0:
+        logger.error(f"❌ Invalid days parameter: {days}")
+        raise ValueError("❌ Days must be a non negative integer")
+
+    try:
+        logger.info("🔗 Connecting to the database")
+        session = get_session(database_url or "sqlite:///data/tareas.db", debug=True)
+        logger.success("✅ Database connection established successfully")
+    except Exception as e:
+        logger.error(f"❌ Error connecting to the database: {e}")
+        raise Exception(f"Error connecting to the database: {e}") 
+    
+    try:
+        logger.info(f"Retrieving tasks due within the next {days} days")
+        today = date.today()
+        upcoming_date = today + timedelta(days=days)
+        tasks = session.query(Tarea).filter(
+            func.date(Tarea.due_date) >= today,
+            func.date(Tarea.due_date) <= upcoming_date
+        ).all()
+        task_list = [task.to_dict() for task in tasks]
+
+        if not task_list:
+            logger.warning(f"No upcoming tasks found for the next {days} days")
+            return []
+        logger.success(f"Retrieved {len(task_list)} upcoming tasks successfully")
+        return task_list
+    except Exception as e:
+        logger.error(f"❌ Error retrieving upcoming tasks: {e}")
+        raise Exception(f"❌ Error retrieving upcoming tasks: {e}")
+    finally:
+        logger.info("🔒 Closing session")
+        session.close()
+
 
 
         
