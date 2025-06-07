@@ -10,8 +10,9 @@ from loguru import logger
 from typing import Optional
 from datetime import date, timedelta
 from sqlalchemy import func
+from agents import function_tool
 
-
+@function_tool
 def create_task(title: str, description: str, due_date: datetime, database_url = None) -> dict:
     """
     Create a new task in the database.
@@ -79,6 +80,7 @@ get_recent_tasks(days=7) - Tareas creadas recientemente
 get_overdue_tasks() - Tareas vencidas (¡crítico para usuarios!) -> Depends on create update_task()
 """
 
+@function_tool
 def get_all_tasks(database_url: Optional[str] = None) -> list[dict]:
     """
     Retrieve a list of all tasks from the database.
@@ -112,6 +114,7 @@ def get_all_tasks(database_url: Optional[str] = None) -> list[dict]:
         logger.info("🔒 Closing session")
         session.close()
 
+@function_tool
 def get_task_by_id(task_id: int, database_url: Optional[str] = None) -> dict:
     """
     Retrieve a task by its ID from the database.
@@ -154,7 +157,8 @@ def get_task_by_id(task_id: int, database_url: Optional[str] = None) -> dict:
     finally:
         logger.info("🔒 Closing session")
         session.close()
-
+        
+@function_tool
 def delete_task(task_id: int, database_url: Optional[str] = None) -> dict:
     """
     Delete a task by its ID from the database.
@@ -195,7 +199,8 @@ def delete_task(task_id: int, database_url: Optional[str] = None) -> dict:
     finally:
         logger.info("🔒 Closing session")
         session.close()
-        
+
+@function_tool        
 def get_tasks_for_today(database_url: Optional[str] = None) -> list[dict]:
     """
     Retrieve tasks that are due today from the databse.
@@ -231,7 +236,8 @@ def get_tasks_for_today(database_url: Optional[str] = None) -> list[dict]:
     finally:
         logger.info("🔒 Closing session")
         session.close()
-
+        
+@function_tool
 def get_upcoming_tasks(days: int, database_url: Optional[str] = None) -> list[dict]:
     """
     Retrieve tasks that are due within the next specified number of days from the database.
